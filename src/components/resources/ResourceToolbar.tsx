@@ -72,7 +72,7 @@ export default function ResourceToolbar({
           value={search}
           onChange={(e) => setSearch(e.target.value)}
           placeholder='Buscar recursos...'
-          className='w-full rounded-lg border border-border-strong bg-surface-elevated py-2 pl-8 pr-10 text-[13px] text-interactive transition-colors focus:border-[#3d3d3d] focus:bg-[#1d1d1d]'
+          className='w-full rounded-lg border border-border-strong bg-surface-elevated py-2 pl-8 pr-10 text-[13px] text-interactive transition-colors outline-none focus:border-[#3d3d3d] focus:bg-[#1d1d1d]'
         />
 
         {search ? (

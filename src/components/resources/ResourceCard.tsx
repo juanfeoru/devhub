@@ -108,10 +108,10 @@ export default function ResourceCard({
               aria-controls={menuId}
               title='Más opciones'
               onClick={() => setIsMenuOpen((prev) => !prev)}
-              className={`flex size-8 items-center justify-center rounded-md text-text-muted transition-all hover:bg-surface-active hover:text-text-primary ${
+              className={`flex size-8 items-center justify-center rounded-md text-text-muted transition-all hover:bg-surface-active hover:text-text-primary focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-interactive ${
                 isMenuOpen
                   ? 'bg-surface-active text-text-primary'
-                  : 'opacity-100 lg:opacity-0 lg:group-hover:opacity-100'
+                  : 'opacity-100 lg:opacity-0 lg:group-hover:opacity-100 lg:group-focus-within:opacity-100'
               }`}
             >
               <Ellipsis size={19} aria-hidden='true' />
@@ -128,7 +128,7 @@ export default function ResourceCard({
                     setIsMenuOpen(false);
                     onEdit?.();
                   }}
-                  className='flex w-full items-center gap-2.5 px-2.5 py-2 rounded-md text-left text-[13px] text-text-secondary transition-colors hover:bg-surface-active hover:text-text-primary'
+                  className='flex w-full items-center gap-2.5 px-3 py-2 rounded-md text-left text-[13px] text-text-secondary transition-colors hover:bg-surface-active hover:text-text-primary focus-visible:bg-surface-active focus-visible:outline-none'
                 >
                   <Pencil size={15} aria-hidden='true' />
                   Editar recurso
@@ -140,7 +140,7 @@ export default function ResourceCard({
                     setIsMenuOpen(false);
                     onDelete?.();
                   }}
-                  className='flex w-full items-center gap-2.5 px-2.5 py-2 rounded-md text-left text-[13px] text-red-400 transition-colors hover:bg-red-500/10'
+                  className='flex w-full items-center gap-2.5 px-3 py-2 rounded-md text-left text-[13px] text-red-400 transition-colors hover:bg-red-500/10 focus-visible:bg-red-500/10 focus-visible:outline-none'
                 >
                   <Trash2 size={15} aria-hidden='true' />
                   Eliminar recurso

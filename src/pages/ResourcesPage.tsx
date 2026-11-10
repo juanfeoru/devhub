@@ -4,6 +4,7 @@ import { useState } from 'react';
 import ResourceToolbar from '../components/resources/ResourceToolbar';
 import { resources as dataResources } from '../data/resources';
 import ResourceCard from '../components/resources/ResourceCard';
+import EmptyState from '../components/ui/EmptyState';
 
 export type ResourceView = 'grid' | 'list';
 export type ResourceSort = '' | 'name' | 'recent';
@@ -74,17 +75,21 @@ export default function ResourcesPage() {
         </span>
       </div>
 
-      <div
-        className={`grid gap-4 ${
-          view === 'grid'
-            ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-            : 'grid-cols-1'
-        }`}
-      >
-        {sortedResources.map((resource) => (
-          <ResourceCard key={resource.id} resource={resource} />
-        ))}
-      </div>
+      {sortedResources.length <= 0 ? (
+        <EmptyState />
+      ) : (
+        <div
+          className={`grid gap-4 ${
+            view === 'grid'
+              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
+              : 'grid-cols-1'
+          }`}
+        >
+          {sortedResources.map((resource) => (
+            <ResourceCard key={resource.id} resource={resource} />
+          ))}
+        </div>
+      )}
     </section>
   );
 }

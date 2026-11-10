@@ -44,7 +44,7 @@ export function MobileHeader({ mobileOpen, onOpen }: MobileHeaderProps) {
 
 export function PageHeader({ title, description, actions }: PageHeaderProps) {
   return (
-    <header className='flex flex-col gap-4 border-b pb-6 md:flex-row md:items-center md:justify-between md:border'>
+    <header className='flex flex-col gap-4 border-border mb-2 pb-6 md:flex-row md:items-center md:gap-0 md:justify-between md:border-b md:mb-6'>
       <div>
         <h1 className='text-2xl font-semibold text-interactive'>{title}</h1>
 

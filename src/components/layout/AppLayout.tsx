@@ -21,7 +21,7 @@ export default function AppLayout() {
         onOpen={() => setMobileOpen(true)}
       />
 
-      <main className='min-w-0 min-h-0 flex-1 md:overflow-y-auto'>
+      <main className='py-5 px-6 min-w-0 min-h-0 flex-1 md:p-8 md:overflow-y-auto'>
         <Outlet />
       </main>
     </div>

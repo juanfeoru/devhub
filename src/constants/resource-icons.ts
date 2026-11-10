@@ -1,0 +1,120 @@
+import {
+  Palette,
+  Type,
+  CodeXml,
+  Code2,
+  FileCode,
+  Braces,
+  Component,
+  Layers,
+  Image,
+  ImagePlus,
+  Shapes,
+  Database,
+  Network,
+  Brain,
+  Bot,
+  GraduationCap,
+  BookOpen,
+  Gamepad2,
+  GitBranch,
+  GitFork,
+  Map,
+  MapPinned,
+  Globe,
+  Terminal,
+  Wrench,
+  Workflow,
+  ChartNoAxesCombined,
+  FileSpreadsheet,
+  Sparkles,
+  WandSparkles,
+  Wind,
+  Zap,
+} from 'lucide-react';
+
+export const resourceIcons = {
+  Palette,
+  Type,
+  CodeXml,
+  Code2,
+  FileCode,
+  Braces,
+  Component,
+  Layers,
+  Image,
+  ImagePlus,
+  Shapes,
+  Database,
+  Network,
+  Brain,
+  Bot,
+  GraduationCap,
+  BookOpen,
+  Gamepad2,
+  GitBranch,
+  GitFork,
+  Map,
+  MapPinned,
+  Globe,
+  Terminal,
+  Wrench,
+  Workflow,
+  ChartNoAxesCombined,
+  FileSpreadsheet,
+  Sparkles,
+  WandSparkles,
+  Wind,
+  Zap,
+};
+
+export type ResourceIconName = keyof typeof resourceIcons;
+
+export const tagIcons: Record<string, ResourceIconName> = {
+  // Diseño
+  diseno: 'Palette',
+  colores: 'Palette',
+  tipografias: 'Type',
+  tipografia: 'Type',
+  'diseno web': 'Globe',
+  mockups: 'ImagePlus',
+  inspiracion: 'Sparkles',
+
+  // Desarrollo web
+  html: 'CodeXml',
+  css: 'FileCode',
+  javascript: 'Braces',
+  'tailwind css': 'Wind',
+  desarrollo: 'Code2',
+  frontend: 'Globe',
+  programacion: 'Terminal',
+  componentes: 'Component',
+
+  // Recursos visuales
+  iconos: 'Shapes',
+  imagenes: 'Image',
+  svg: 'Image',
+  animaciones: 'WandSparkles',
+
+  // Herramientas
+  herramientas: 'Wrench',
+  aprendizaje: 'BookOpen',
+  practica: 'Code2',
+  documentacion: 'BookOpen',
+
+  // Tecnología
+  apis: 'Network',
+  http: 'Globe',
+  sql: 'Database',
+  datos: 'ChartNoAxesCombined',
+  ia: 'Bot',
+  'inteligencia artificial': 'Bot',
+  juegos: 'Gamepad2',
+
+  // Desarrollo colaborativo
+  github: 'GitBranch',
+  git: 'GitFork',
+
+  // Otros
+  mapas: 'MapPinned',
+};

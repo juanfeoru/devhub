@@ -5,6 +5,7 @@ import ResourceToolbar from '../components/resources/ResourceToolbar';
 import { resources as dataResources } from '../data/resources';
 import ResourceCard from '../components/resources/ResourceCard';
 import EmptyState from '../components/ui/EmptyState';
+import Pagination from '../components/resources/Pagination';
 
 export type ResourceView = 'grid' | 'list';
 export type ResourceSort = '' | 'name' | 'recent';
@@ -13,6 +14,7 @@ export default function ResourcesPage() {
   const [view, setView] = useState<ResourceView>('grid');
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<ResourceSort>('');
+  const [currentPage, setCurrentPage] = useState(1);
   const resources = dataResources;
 
   const normalizedSearch = search.trim().toLowerCase();
@@ -36,6 +38,23 @@ export default function ResourcesPage() {
 
     return 0;
   });
+
+  const itemsPerPage = 10;
+
+  const totalPages = Math.ceil(sortedResources.length / itemsPerPage);
+
+  const safeCurrentPage = Math.min(currentPage, Math.max(totalPages, 1));
+
+  const startIndex = (safeCurrentPage - 1) * itemsPerPage;
+
+  const paginatedResources = sortedResources.slice(
+    startIndex,
+    startIndex + itemsPerPage,
+  );
+
+  const startItem = (currentPage - 1) * itemsPerPage + 1;
+
+  const endItem = Math.min(currentPage * itemsPerPage, sortedResources.length);
 
   return (
     <section className='space-y-5'>
@@ -61,6 +80,7 @@ export default function ResourcesPage() {
         setSort={setSort}
         view={view}
         setView={setView}
+        onPageChange={setCurrentPage}
       />
 
       <div className='flex items-center gap-2.5 mt-8 mb-3.5'>
@@ -85,9 +105,23 @@ export default function ResourcesPage() {
               : 'grid-cols-1'
           }`}
         >
-          {sortedResources.map((resource) => (
+          {paginatedResources.map((resource) => (
             <ResourceCard key={resource.id} resource={resource} />
           ))}
+        </div>
+      )}
+
+      {totalPages > 0 && (
+        <div className='mt-8 flex flex-col gap-4 border-t border-border pt-5 sm:flex-row sm:items-center sm:justify-between'>
+          <p className='text-sm text-text-muted'>
+            Mostrando {startItem}-{endItem} de {sortedResources.length}
+          </p>
+
+          <Pagination
+            currentPage={safeCurrentPage}
+            totalPages={totalPages}
+            onPageChange={setCurrentPage}
+          />
         </div>
       )}
     </section>

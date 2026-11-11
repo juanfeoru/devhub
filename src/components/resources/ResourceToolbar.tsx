@@ -9,6 +9,7 @@ interface ResourceToolbarProps {
   setSort: (value: ResourceSort) => void;
   view: ResourceView;
   setView: (value: ResourceView) => void;
+  onPageChange: (page: number) => void;
 }
 
 export default function ResourceToolbar({
@@ -18,6 +19,7 @@ export default function ResourceToolbar({
   setSort,
   view,
   setView,
+  onPageChange,
 }: ResourceToolbarProps) {
   const searchInputRef = useRef<HTMLInputElement>(null);
 
@@ -70,7 +72,10 @@ export default function ResourceToolbar({
           type='text'
           autoComplete='off'
           value={search}
-          onChange={(e) => setSearch(e.target.value)}
+          onChange={(e) => {
+            setSearch(e.target.value);
+            onPageChange(1);
+          }}
           placeholder='Buscar recursos...'
           className='w-full rounded-lg border border-border-strong bg-surface-elevated py-2 pl-8 pr-10 text-[13px] text-interactive transition-colors outline-none focus:border-[#3d3d3d] focus:bg-[#1d1d1d]'
         />
@@ -81,6 +86,7 @@ export default function ResourceToolbar({
             onClick={() => {
               setSearch('');
               searchInputRef.current?.focus();
+              onPageChange(1);
             }}
             aria-label='Limpiar búsqueda'
             title='Limpiar búsqueda'
@@ -106,7 +112,10 @@ export default function ResourceToolbar({
         <select
           id='resource-sort'
           value={sort}
-          onChange={(e) => setSort(e.target.value as ResourceSort)}
+          onChange={(e) => {
+            setSort(e.target.value as ResourceSort);
+            onPageChange(1);
+          }}
           className='cursor-pointer rounded-md border border-border-strong bg-surface px-2.5 py-1.5 font-mono text-xs text-text-muted'
         >
           <option value=''>Ordenar</option>

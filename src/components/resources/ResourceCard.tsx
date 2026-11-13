@@ -15,9 +15,9 @@ import {
 
 interface ResourceCardProps {
   resource: Resource;
-  onToggleFavorite?: () => void;
-  onEdit?: () => void;
-  onDelete?: () => void;
+  onToggleFavorite: () => void;
+  onEdit: () => void;
+  onDelete: () => void;
 }
 
 interface ResourceIconProps {
@@ -126,7 +126,7 @@ export default function ResourceCard({
                   type='button'
                   onClick={() => {
                     setIsMenuOpen(false);
-                    onEdit?.();
+                    onEdit();
                   }}
                   className='flex w-full items-center gap-2.5 px-3 py-2 rounded-md text-left text-[13px] text-text-secondary transition-colors hover:bg-surface-active hover:text-text-primary focus-visible:bg-surface-active focus-visible:outline-none'
                 >
@@ -138,7 +138,7 @@ export default function ResourceCard({
                   type='button'
                   onClick={() => {
                     setIsMenuOpen(false);
-                    onDelete?.();
+                    onDelete();
                   }}
                   className='flex w-full items-center gap-2.5 px-3 py-2 rounded-md text-left text-[13px] text-red-400 transition-colors hover:bg-red-500/10 focus-visible:bg-red-500/10 focus-visible:outline-none'
                 >

@@ -2,10 +2,17 @@ import { Plus } from 'lucide-react';
 import { PageHeader } from '../components/layout/Header';
 import { useState } from 'react';
 import ResourceToolbar from '../components/resources/ResourceToolbar';
-import { resources as dataResources } from '../data/resources';
 import ResourceCard from '../components/resources/ResourceCard';
 import EmptyState from '../components/ui/EmptyState';
 import Pagination from '../components/resources/Pagination';
+import { useResources } from '../hooks/useResources';
+import { useOutletContext } from 'react-router';
+import type { Resource } from '../types/resource';
+
+interface OutletContext {
+  onOpen: () => void;
+  handleUpdateResource: (resource: Resource) => void;
+}
 
 export type ResourceView = 'grid' | 'list';
 export type ResourceSort = '' | 'name' | 'recent';
@@ -15,7 +22,9 @@ export default function ResourcesPage() {
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<ResourceSort>('');
   const [currentPage, setCurrentPage] = useState(1);
-  const resources = dataResources;
+
+  const { resources, dispatch } = useResources();
+  const { onOpen, handleUpdateResource } = useOutletContext<OutletContext>();
 
   const normalizedSearch = search.trim().toLowerCase();
 
@@ -38,6 +47,20 @@ export default function ResourcesPage() {
 
     return 0;
   });
+
+  const handleDeleteResource = (id: string) => {
+    dispatch({
+      type: 'DELETE_RESOURCE',
+      payload: { id },
+    });
+  };
+
+  const handleUpdateFavorite = (id: string) => {
+    dispatch({
+      type: 'TOGGLE_FAVORITE',
+      payload: { id },
+    });
+  };
 
   const itemsPerPage = 10;
 
@@ -65,6 +88,7 @@ export default function ResourcesPage() {
           <button
             type='button'
             aria-label='Agregar recurso'
+            onClick={onOpen}
             className='w-full inline-flex items-center justify-center whitespace-nowrap gap-1.5 bg-[#2a2a2a] text-interactive rounded-[7px] border border-[#3a3a3a] py-1.75 px-3.5 text-[13px] font-medium transition-colors hover:bg-[#303030] hover:border-[#444] md:w-fit md:justify-start'
           >
             <Plus size={18} aria-hidden='true' />
@@ -106,7 +130,13 @@ export default function ResourcesPage() {
           }`}
         >
           {paginatedResources.map((resource) => (
-            <ResourceCard key={resource.id} resource={resource} />
+            <ResourceCard
+              key={resource.id}
+              resource={resource}
+              onToggleFavorite={() => handleUpdateFavorite(resource.id)}
+              onEdit={() => handleUpdateResource(resource)}
+              onDelete={() => handleDeleteResource(resource.id)}
+            />
           ))}
         </div>
       )}

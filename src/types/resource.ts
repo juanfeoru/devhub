@@ -1,6 +1,5 @@
 import type { ResourceIconName } from '../constants/resource-icons';
 
-export type ResourceView = 'grid' | 'list';
 export type ResourceSort = '' | 'name' | 'recent';
 
 export interface Resource {

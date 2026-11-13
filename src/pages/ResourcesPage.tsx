@@ -1,32 +1,30 @@
+import { useOutletContext } from 'react-router';
+
 import { Plus } from 'lucide-react';
+
 import { PageHeader } from '../components/layout/Header';
-import { useState } from 'react';
 import ResourceToolbar from '../components/resources/ResourceToolbar';
 import ResourceCard from '../components/resources/ResourceCard';
 import EmptyState from '../components/ui/EmptyState';
 import Pagination from '../components/resources/Pagination';
+
 import { useResources } from '../hooks/useResources';
-import { useOutletContext } from 'react-router';
-import type { Resource } from '../types/resource';
 import { useResourceActions } from '../hooks/useResourceActions';
 import { useResourcePagination } from '../hooks/useResourcePagination';
+import { useSearch } from '../hooks/useSearch';
+
+import type { Resource } from '../types/resource';
 
 interface OutletContext {
   onOpen: () => void;
   handleUpdateResource: (resource: Resource) => void;
 }
 
-export type ResourceView = 'grid' | 'list';
-export type ResourceSort = '' | 'name' | 'recent';
-
 export default function ResourcesPage() {
-  const [view, setView] = useState<ResourceView>('grid');
-  const [search, setSearch] = useState('');
-  const [sort, setSort] = useState<ResourceSort>('');
-
   const { resources } = useResources();
   const { onOpen, handleUpdateResource } = useOutletContext<OutletContext>();
   const { handleDeleteResource, handleUpdateFavorite } = useResourceActions();
+  const { search, setSearch, sort, setSort } = useSearch();
 
   const normalizedSearch = search.trim().toLowerCase();
 
@@ -82,8 +80,6 @@ export default function ResourcesPage() {
         setSearch={setSearch}
         sort={sort}
         setSort={setSort}
-        view={view}
-        setView={setView}
         onPageChange={setCurrentPage}
       />
 
@@ -106,13 +102,7 @@ export default function ResourcesPage() {
           onAddResource={onOpen}
         />
       ) : (
-        <div
-          className={`grid gap-4 ${
-            view === 'grid'
-              ? 'grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4'
-              : 'grid-cols-1'
-          }`}
-        >
+        <div className='grid grid-cols-[repeat(auto-fit,minmax(280px,1fr))] gap-4'>
           {paginatedResources.map((resource) => (
             <ResourceCard
               key={resource.id}

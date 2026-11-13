@@ -1,14 +1,12 @@
-import { Grid2x2, List, Search, X } from 'lucide-react';
+import { Search, X } from 'lucide-react';
 import { useEffect, useRef } from 'react';
-import type { ResourceSort, ResourceView } from '../../types/resource';
+import type { ResourceSort } from '../../types/resource';
 
 interface ResourceToolbarProps {
   search: string;
   setSearch: (value: string) => void;
   sort: ResourceSort;
   setSort: (value: ResourceSort) => void;
-  view: ResourceView;
-  setView: (value: ResourceView) => void;
   onPageChange: (page: number) => void;
 }
 
@@ -17,8 +15,6 @@ export default function ResourceToolbar({
   setSearch,
   sort,
   setSort,
-  view,
-  setView,
   onPageChange,
 }: ResourceToolbarProps) {
   const searchInputRef = useRef<HTMLInputElement>(null);
@@ -122,42 +118,6 @@ export default function ResourceToolbar({
           <option value='name'>Nombre A-Z</option>
           <option value='recent'>Añadidos recientemente</option>
         </select>
-
-        <div
-          role='group'
-          aria-label='Vista de recursos'
-          className='flex shrink-0 gap-0.5 rounded-lg border border-border-strong bg-surface p-0.75'
-        >
-          <button
-            type='button'
-            onClick={() => setView('grid')}
-            title='Vista de cuadrícula'
-            aria-label='Vista de cuadrícula'
-            aria-pressed={view === 'grid'}
-            className={`grid size-7 place-items-center rounded-md transition-colors ${
-              view === 'grid'
-                ? 'border border-border-strong bg-surface-active text-text-primary'
-                : 'text-text-muted hover:text-text-primary'
-            }`}
-          >
-            <Grid2x2 size={16} aria-hidden='true' />
-          </button>
-
-          <button
-            type='button'
-            onClick={() => setView('list')}
-            title='Vista de lista'
-            aria-label='Vista de lista'
-            aria-pressed={view === 'list'}
-            className={`grid size-7 place-items-center rounded-md transition-colors ${
-              view === 'list'
-                ? 'border border-border-strong bg-surface-active text-text-primary'
-                : 'text-text-muted hover:text-text-primary'
-            }`}
-          >
-            <List size={16} aria-hidden='true' />
-          </button>
-        </div>
       </div>
     </div>
   );

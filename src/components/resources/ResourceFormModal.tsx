@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import { Check, Star, X } from 'lucide-react';
 
 import type { Resource } from '../../types/resource';
-import { useResources } from '../../hooks/useResources';
+import { useResourceActions } from '../../hooks/useResourceActions';
 
 interface ResourceFormModalProps {
   resource?: Resource;
@@ -35,8 +35,8 @@ export default function ResourceFormModal({
   resource,
   onClose,
 }: ResourceFormModalProps) {
-  const { dispatch } = useResources();
   const isEditing = Boolean(resource);
+  const { handleSaveResource } = useResourceActions();
 
   const [formData, setFormData] = useState<FormData>(() => ({
     title: resource?.title ?? '',
@@ -98,10 +98,7 @@ export default function ResourceFormModal({
       createdAt: resource?.createdAt ?? new Date().toISOString(),
     };
 
-    dispatch({
-      type: isEditing ? 'UPDATE_RESOURCE' : 'ADD_RESOURCE',
-      payload: newResource,
-    });
+    handleSaveResource(newResource, isEditing);
 
     onClose();
   }

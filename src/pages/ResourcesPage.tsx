@@ -8,6 +8,7 @@ import Pagination from '../components/resources/Pagination';
 import { useResources } from '../hooks/useResources';
 import { useOutletContext } from 'react-router';
 import type { Resource } from '../types/resource';
+import { useResourceActions } from '../hooks/useResourceActions';
 
 interface OutletContext {
   onOpen: () => void;
@@ -23,8 +24,9 @@ export default function ResourcesPage() {
   const [sort, setSort] = useState<ResourceSort>('');
   const [currentPage, setCurrentPage] = useState(1);
 
-  const { resources, dispatch } = useResources();
+  const { resources } = useResources();
   const { onOpen, handleUpdateResource } = useOutletContext<OutletContext>();
+  const { handleDeleteResource, handleUpdateFavorite } = useResourceActions();
 
   const normalizedSearch = search.trim().toLowerCase();
 
@@ -47,20 +49,6 @@ export default function ResourcesPage() {
 
     return 0;
   });
-
-  const handleDeleteResource = (id: string) => {
-    dispatch({
-      type: 'DELETE_RESOURCE',
-      payload: { id },
-    });
-  };
-
-  const handleUpdateFavorite = (id: string) => {
-    dispatch({
-      type: 'TOGGLE_FAVORITE',
-      payload: { id },
-    });
-  };
 
   const itemsPerPage = 10;
 

@@ -9,6 +9,7 @@ import { useResources } from '../hooks/useResources';
 import { useOutletContext } from 'react-router';
 import type { Resource } from '../types/resource';
 import { useResourceActions } from '../hooks/useResourceActions';
+import { useResourcePagination } from '../hooks/useResourcePagination';
 
 interface OutletContext {
   onOpen: () => void;
@@ -22,7 +23,6 @@ export default function ResourcesPage() {
   const [view, setView] = useState<ResourceView>('grid');
   const [search, setSearch] = useState('');
   const [sort, setSort] = useState<ResourceSort>('');
-  const [currentPage, setCurrentPage] = useState(1);
 
   const { resources } = useResources();
   const { onOpen, handleUpdateResource } = useOutletContext<OutletContext>();
@@ -50,22 +50,14 @@ export default function ResourcesPage() {
     return 0;
   });
 
-  const itemsPerPage = 10;
-
-  const totalPages = Math.ceil(sortedResources.length / itemsPerPage);
-
-  const safeCurrentPage = Math.min(currentPage, Math.max(totalPages, 1));
-
-  const startIndex = (safeCurrentPage - 1) * itemsPerPage;
-
-  const paginatedResources = sortedResources.slice(
-    startIndex,
-    startIndex + itemsPerPage,
-  );
-
-  const startItem = (currentPage - 1) * itemsPerPage + 1;
-
-  const endItem = Math.min(currentPage * itemsPerPage, sortedResources.length);
+  const {
+    currentPage,
+    totalPages,
+    paginatedResources,
+    startItem,
+    endItem,
+    setCurrentPage,
+  } = useResourcePagination(sortedResources);
 
   return (
     <section className='space-y-5'>
@@ -140,7 +132,7 @@ export default function ResourcesPage() {
           </p>
 
           <Pagination
-            currentPage={safeCurrentPage}
+            currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
           />

@@ -1,56 +1,32 @@
 import { useOutletContext } from 'react-router';
 import { useResources } from '../hooks/useResources';
 import type { Resource } from '../types/resource';
-import { useState } from 'react';
 import { PageHeader } from '../components/layout/Header';
 import EmptyState from '../components/ui/EmptyState';
 import ResourceCard from '../components/resources/ResourceCard';
 import Pagination from '../components/resources/Pagination';
+import { useResourcePagination } from '../hooks/useResourcePagination';
+import { useResourceActions } from '../hooks/useResourceActions';
 
 interface OutletContext {
   handleUpdateResource: (resource: Resource) => void;
 }
 
 export default function FavoritesPage() {
-  const { resources, dispatch } = useResources();
+  const { resources } = useResources();
   const { handleUpdateResource } = useOutletContext<OutletContext>();
-  const [currentPage, setCurrentPage] = useState(1);
+  const { handleDeleteResource, handleUpdateFavorite } = useResourceActions();
 
   const favoritesResources = resources.filter((resource) => resource.favorite);
 
-  const itemsPerPage = 10;
-
-  const totalPages = Math.ceil(favoritesResources.length / itemsPerPage);
-
-  const safeCurrentPage = Math.min(currentPage, Math.max(totalPages, 1));
-
-  const startIndex = (safeCurrentPage - 1) * itemsPerPage;
-
-  const paginatedResources = favoritesResources.slice(
-    startIndex,
-    startIndex + itemsPerPage,
-  );
-
-  const startItem = (safeCurrentPage - 1) * itemsPerPage + 1;
-
-  const endItem = Math.min(
-    safeCurrentPage * itemsPerPage,
-    favoritesResources.length,
-  );
-
-  const handleDeleteResource = (id: string) => {
-    dispatch({
-      type: 'DELETE_RESOURCE',
-      payload: { id },
-    });
-  };
-
-  const handleUpdateFavorite = (id: string) => {
-    dispatch({
-      type: 'TOGGLE_FAVORITE',
-      payload: { id },
-    });
-  };
+  const {
+    currentPage,
+    totalPages,
+    paginatedResources,
+    startItem,
+    endItem,
+    setCurrentPage,
+  } = useResourcePagination(favoritesResources);
 
   return (
     <section className='space-y-5'>
@@ -102,7 +78,7 @@ export default function FavoritesPage() {
           </p>
 
           <Pagination
-            currentPage={safeCurrentPage}
+            currentPage={currentPage}
             totalPages={totalPages}
             onPageChange={setCurrentPage}
           />

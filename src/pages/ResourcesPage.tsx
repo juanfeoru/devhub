@@ -120,7 +120,11 @@ export default function ResourcesPage() {
       </div>
 
       {sortedResources.length <= 0 ? (
-        <EmptyState />
+        <EmptyState
+          title='Todavía no hay recursos'
+          description='Tu biblioteca está vacía. Agrega tu primer recurso y empieza a organizar tus herramientas favoritas.'
+          onAddResource={onOpen}
+        />
       ) : (
         <div
           className={`grid gap-4 ${
